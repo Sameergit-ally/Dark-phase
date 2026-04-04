@@ -1,0 +1,244 @@
+/* DarkGuard — Highlight & Overlay Styles */
+/* Injected into every page via content script */
+
+/* ─── Highlight Borders ──────────────────────────────── */
+
+.darkguard-highlighted {
+  position: relative !important;
+  transition: box-shadow 0.3s ease !important;
+}
+
+.darkguard-highlight-high {
+  box-shadow: inset 0 0 0 2px #e63946, 0 0 12px rgba(230, 57, 70, 0.3) !important;
+  border-radius: 4px !important;
+}
+
+.darkguard-highlight-medium {
+  box-shadow: inset 0 0 0 2px #f4a261, 0 0 12px rgba(244, 162, 97, 0.3) !important;
+  border-radius: 4px !important;
+}
+
+.darkguard-highlight-low {
+  box-shadow: inset 0 0 0 2px #e9c46a, 0 0 12px rgba(233, 196, 106, 0.3) !important;
+  border-radius: 4px !important;
+}
+
+/* ─── Shield Badge ───────────────────────────────────── */
+
+.darkguard-badge {
+  position: absolute !important;
+  top: -8px !important;
+  right: -8px !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 14px !important;
+  background: #1a1a2e !important;
+  border-radius: 50% !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  z-index: 2147483646 !important;
+  pointer-events: none !important;
+  animation: darkguard-pulse 2s infinite !important;
+}
+
+@keyframes darkguard-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* ─── Tooltip ────────────────────────────────────────── */
+
+.darkguard-tooltip {
+  display: none;
+  position: absolute !important;
+  bottom: calc(100% + 10px) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: #1a1a2e !important;
+  color: #ffffff !important;
+  padding: 12px 16px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+  z-index: 2147483647 !important;
+  pointer-events: none !important;
+  min-width: 250px !important;
+  max-width: 350px !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  white-space: normal !important;
+}
+
+.darkguard-tooltip::after {
+  content: "" !important;
+  position: absolute !important;
+  top: 100% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  border: 6px solid transparent !important;
+  border-top-color: #1a1a2e !important;
+}
+
+.darkguard-tooltip-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin-bottom: 6px !important;
+  font-size: 14px !important;
+}
+
+.darkguard-tooltip-icon {
+  font-size: 16px !important;
+}
+
+.darkguard-tooltip-confidence {
+  font-size: 11px !important;
+  color: #a0a0c0 !important;
+  margin-bottom: 4px !important;
+}
+
+.darkguard-tooltip-explanation {
+  color: #d0d0ee !important;
+  font-size: 12px !important;
+}
+
+/* ─── Pre-Purchase Modal ─────────────────────────────── */
+
+.darkguard-modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0, 0, 0, 0.7) !important;
+  backdrop-filter: blur(4px) !important;
+  z-index: 2147483647 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+.darkguard-modal {
+  background: #1a1a2e !important;
+  color: #ffffff !important;
+  border-radius: 16px !important;
+  padding: 32px !important;
+  max-width: 500px !important;
+  width: 90% !important;
+  box-shadow: 0 20px 60px rgba(108, 99, 255, 0.3) !important;
+  border: 1px solid rgba(108, 99, 255, 0.3) !important;
+  animation: darkguard-modal-in 0.3s ease !important;
+}
+
+@keyframes darkguard-modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.darkguard-modal-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin-bottom: 16px !important;
+}
+
+.darkguard-modal-header h2 {
+  margin: 0 !important;
+  font-size: 22px !important;
+  color: #ffffff !important;
+}
+
+.darkguard-modal-icon {
+  font-size: 28px !important;
+}
+
+.darkguard-modal-message {
+  font-size: 15px !important;
+  color: #d0d0ee !important;
+  margin-bottom: 16px !important;
+  line-height: 1.5 !important;
+}
+
+.darkguard-modal-patterns {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 0 20px 0 !important;
+  max-height: 200px !important;
+  overflow-y: auto !important;
+}
+
+.darkguard-modal-patterns li {
+  background: rgba(108, 99, 255, 0.1) !important;
+  padding: 10px 14px !important;
+  border-radius: 8px !important;
+  margin-bottom: 8px !important;
+  font-size: 13px !important;
+  border-left: 3px solid #6c63ff !important;
+}
+
+.darkguard-modal-patterns li strong {
+  color: #f4a261 !important;
+}
+
+.darkguard-modal-patterns li small {
+  color: #a0a0c0 !important;
+}
+
+.darkguard-modal-actions {
+  display: flex !important;
+  gap: 10px !important;
+  flex-wrap: wrap !important;
+}
+
+.darkguard-btn {
+  padding: 10px 20px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  flex: 1 !important;
+  min-width: 120px !important;
+}
+
+.darkguard-btn:hover {
+  transform: translateY(-1px) !important;
+}
+
+.darkguard-btn-danger {
+  background: #e63946 !important;
+  color: white !important;
+}
+
+.darkguard-btn-danger:hover {
+  background: #d62828 !important;
+}
+
+.darkguard-btn-safe {
+  background: #2a9d8f !important;
+  color: white !important;
+}
+
+.darkguard-btn-safe:hover {
+  background: #21867a !important;
+}
+
+.darkguard-btn-info {
+  background: rgba(108, 99, 255, 0.2) !important;
+  color: #6c63ff !important;
+  border: 1px solid #6c63ff !important;
+}
+
+.darkguard-btn-info:hover {
+  background: rgba(108, 99, 255, 0.3) !important;
+}

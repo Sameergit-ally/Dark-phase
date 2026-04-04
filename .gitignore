@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+*.pyc
+__pycache__/
+venv/
+*.pkl
+*.onnx
+*.egg-info/
+.DS_Store
+Thumbs.db

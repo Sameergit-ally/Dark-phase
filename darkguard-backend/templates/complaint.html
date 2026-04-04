@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CCPA Complaint — DarkGuard</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #1a1a2e;
+            line-height: 1.6;
+            font-size: 11pt;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #6c63ff;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #6c63ff;
+            font-size: 24pt;
+            margin: 0;
+        }
+        .header .subtitle {
+            color: #666;
+            font-size: 10pt;
+            margin-top: 5px;
+        }
+        .section {
+            margin-bottom: 25px;
+        }
+        .section h2 {
+            color: #1a1a2e;
+            font-size: 14pt;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 5px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 8px 15px;
+            margin: 15px 0;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #555;
+        }
+        .info-value {
+            color: #1a1a2e;
+        }
+        .detection-card {
+            background: #f8f9fa;
+            border-left: 4px solid #e63946;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .detection-card.high {
+            border-left-color: #e63946;
+        }
+        .detection-card.medium {
+            border-left-color: #f4a261;
+        }
+        .detection-card.low {
+            border-left-color: #2a9d8f;
+        }
+        .detection-type {
+            font-weight: bold;
+            color: #e63946;
+            font-size: 11pt;
+        }
+        .detection-confidence {
+            color: #666;
+            font-size: 9pt;
+            float: right;
+        }
+        .detection-explanation {
+            margin-top: 5px;
+            font-size: 10pt;
+        }
+        .legal-section {
+            background: #f0f0ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        .legal-section h3 {
+            color: #6c63ff;
+            margin-top: 0;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+            font-size: 9pt;
+            color: #888;
+            text-align: center;
+        }
+        .ref-number {
+            background: #6c63ff;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 9pt;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🛡️ DarkGuard</h1>
+        <div class="subtitle">Dark Pattern Complaint Report</div>
+        <div style="margin-top: 10px;">
+            <span class="ref-number">Ref: {{ complaint_ref }}</span>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Complaint Information</h2>
+        <div class="info-grid">
+            <div class="info-label">Complainant:</div>
+            <div class="info-value">{{ user_name }}</div>
+
+            <div class="info-label">Email:</div>
+            <div class="info-value">{{ user_email }}</div>
+
+            <div class="info-label">Website URL:</div>
+            <div class="info-value">{{ website_url }}</div>
+
+            <div class="info-label">Domain:</div>
+            <div class="info-value">{{ domain }}</div>
+
+            <div class="info-label">Scan Date:</div>
+            <div class="info-value">{{ scan_date }}</div>
+
+            <div class="info-label">Report Generated:</div>
+            <div class="info-value">{{ generated_date }}</div>
+
+            <div class="info-label">Patterns Detected:</div>
+            <div class="info-value"><strong>{{ pattern_count }}</strong></div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Detected Dark Patterns</h2>
+        {% for detection in detections %}
+        <div class="detection-card {% if detection.confidence_score > 0.8 %}high{% elif detection.confidence_score > 0.5 %}medium{% else %}low{% endif %}">
+            <div class="detection-type">
+                {{ detection.pattern_type | replace('_', ' ') }}
+                <span class="detection-confidence">
+                    Confidence: {{ (detection.confidence_score * 100) | round(1) }}%
+                </span>
+            </div>
+            <div class="detection-explanation">
+                {{ detection.explanation }}
+            </div>
+            {% if detection.text_snippet %}
+            <div style="margin-top: 5px; font-size: 9pt; color: #888;">
+                Evidence: "{{ detection.text_snippet }}"
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="legal-section">
+        <h3>📋 Legal Basis — Consumer Protection Act, 2019 (India) & CCPA 2023</h3>
+        <p>
+            Under the <strong>Consumer Protection Act, 2019</strong>, Section 2(28) defines
+            "unfair trade practice" to include the adoption of deceptive practices, including
+            the use of dark patterns in digital platforms.
+        </p>
+        <p>
+            The <strong>Central Consumer Protection Authority (CCPA) Guidelines on Prevention
+            and Regulation of Dark Patterns, 2023</strong> specifically prohibits the following
+            practices identified in this report:
+        </p>
+        <ul>
+            {% for detection in detections %}
+            <li><strong>{{ detection.pattern_type | replace('_', ' ') }}</strong> — as defined in
+                Annexure I of the CCPA Dark Patterns Guidelines, 2023.</li>
+            {% endfor %}
+        </ul>
+        <p>
+            Platforms engaging in such practices are liable under Section 21 of the Consumer
+            Protection Act, 2019, and may face penalties as prescribed by the CCPA.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Declaration</h2>
+        <p>
+            I, <strong>{{ user_name }}</strong>, hereby declare that the above information is
+            true to the best of my knowledge. The dark patterns described above were detected
+            using automated tools (DarkGuard AI) and verified against the website
+            <strong>{{ website_url }}</strong> on <strong>{{ scan_date }}</strong>.
+        </p>
+        <p style="margin-top: 30px;">
+            <strong>Signature:</strong> _________________________
+        </p>
+        <p>
+            <strong>Date:</strong> {{ generated_date }}
+        </p>
+    </div>
+
+    <div class="footer">
+        <p>
+            This complaint was generated by DarkGuard — AI-Powered Dark Pattern Detection System.
+            <br>
+            Reference: {{ complaint_ref }} | Generated: {{ generated_date }}
+        </p>
+    </div>
+</body>
+</html>

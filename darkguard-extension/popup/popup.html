@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=380, initial-scale=1.0">
+    <title>DarkGuard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            width: 380px;
+            min-height: 480px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f1a;
+            color: #e0e0ee;
+            overflow-x: hidden;
+        }
+
+        /* ─── Header ─────────────────────────────── */
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(108, 99, 255, 0.3);
+        }
+
+        .header h1 {
+            font-size: 20px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .header .logo-icon { font-size: 24px; }
+
+        .header .subtitle {
+            font-size: 11px;
+            color: #8888aa;
+            margin-top: 4px;
+        }
+
+        /* ─── Grade Circle ───────────────────────── */
+        .grade-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            gap: 20px;
+        }
+
+        .grade-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 800;
+            color: #fff;
+            position: relative;
+        }
+
+        .grade-circle::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            padding: 3px;
+            background: conic-gradient(var(--grade-color) var(--grade-pct), #2a2a3e var(--grade-pct));
+            -webkit-mask: radial-gradient(transparent 60%, #000 61%);
+            mask: radial-gradient(transparent 60%, #000 61%);
+        }
+
+        .grade-A { --grade-color: #2a9d8f; --grade-pct: 100%; background: rgba(42, 157, 143, 0.2); }
+        .grade-B { --grade-color: #4ecdc4; --grade-pct: 80%; background: rgba(78, 205, 196, 0.2); }
+        .grade-C { --grade-color: #f4a261; --grade-pct: 60%; background: rgba(244, 162, 97, 0.2); }
+        .grade-D { --grade-color: #e76f51; --grade-pct: 40%; background: rgba(231, 111, 81, 0.2); }
+        .grade-F { --grade-color: #e63946; --grade-pct: 20%; background: rgba(230, 57, 70, 0.2); }
+
+        .grade-info { text-align: left; }
+        .grade-info .domain {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            word-break: break-all;
+        }
+        .grade-info .scan-time {
+            font-size: 11px;
+            color: #8888aa;
+            margin-top: 2px;
+        }
+        .grade-info .pattern-count {
+            font-size: 13px;
+            color: #f4a261;
+            margin-top: 4px;
+        }
+
+        /* ─── Patterns List ──────────────────────── */
+        .patterns-section {
+            padding: 0 16px 16px;
+        }
+
+        .section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6c63ff;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .pattern-item {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-left: 3px solid;
+            transition: background 0.2s;
+        }
+
+        .pattern-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .pattern-item.high { border-left-color: #e63946; }
+        .pattern-item.medium { border-left-color: #f4a261; }
+        .pattern-item.low { border-left-color: #e9c46a; }
+
+        .pattern-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .pattern-type {
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .pattern-confidence {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .pattern-confidence.high { background: rgba(230, 57, 70, 0.2); color: #e63946; }
+        .pattern-confidence.medium { background: rgba(244, 162, 97, 0.2); color: #f4a261; }
+        .pattern-confidence.low { background: rgba(233, 196, 106, 0.2); color: #e9c46a; }
+
+        .pattern-explanation {
+            font-size: 11px;
+            color: #a0a0c0;
+            line-height: 1.4;
+        }
+
+        /* ─── Empty State ────────────────────────── */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6a6a8a;
+        }
+
+        .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+        .empty-state h3 { color: #2a9d8f; margin-bottom: 8px; font-size: 16px; }
+        .empty-state p { font-size: 12px; line-height: 1.5; }
+
+        /* ─── Scanning State ─────────────────────── */
+        .scanning {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .scanning .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #2a2a3e;
+            border-top-color: #6c63ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .scanning p { color: #8888aa; font-size: 13px; }
+
+        /* ─── Actions ────────────────────────────── */
+        .actions {
+            padding: 16px;
+            display: flex;
+            gap: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .action-btn:hover { transform: translateY(-1px); }
+
+        .btn-primary {
+            background: #6c63ff;
+            color: white;
+        }
+        .btn-primary:hover { background: #5a52e0; }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: #d0d0ee;
+        }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.12); }
+
+        .btn-danger {
+            background: rgba(230, 57, 70, 0.15);
+            color: #e63946;
+        }
+        .btn-danger:hover { background: rgba(230, 57, 70, 0.25); }
+
+        /* ─── Footer ─────────────────────────────── */
+        .footer {
+            text-align: center;
+            padding: 12px;
+            font-size: 10px;
+            color: #4a4a6a;
+        }
+
+        .footer a {
+            color: #6c63ff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><span class="logo-icon">🛡️</span> DarkGuard</h1>
+        <div class="subtitle">Dark Pattern Detection AI</div>
+    </div>
+
+    <div id="content">
+        <div class="scanning" id="scanning-state">
+            <div class="spinner"></div>
+            <p>Analyzing page for dark patterns...</p>
+        </div>
+    </div>
+
+    <div class="actions" id="actions" style="display: none;">
+        <button class="action-btn btn-primary" id="btn-rescan">🔄 Rescan</button>
+        <button class="action-btn btn-secondary" id="btn-dashboard">📊 Dashboard</button>
+        <button class="action-btn btn-danger" id="btn-report">🚩 Report</button>
+    </div>
+
+    <div class="footer">
+        Powered by <a href="#" id="link-dashboard">DarkGuard AI</a> • v1.0.0
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
