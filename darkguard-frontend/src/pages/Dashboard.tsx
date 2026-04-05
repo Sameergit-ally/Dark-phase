@@ -1,9 +1,11 @@
 import { Scan, AlertTriangle, FileText, Star } from 'lucide-react'
+import { motion } from 'framer-motion'
 import StatCard from '../components/StatCard'
 import TrustScoreChart from '../components/TrustScoreChart'
 import ScanTable from '../components/ScanTable'
 import { useUserStats } from '../hooks/useScans'
 import { useStore } from '../store/useStore'
+import PageTransition from '../components/PageTransition'
 
 export default function Dashboard() {
   const { user } = useStore()
@@ -19,60 +21,84 @@ export default function Dashboard() {
   ]
 
   return (
-    <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '88px 24px 40px' }}>
-      {/* Welcome */}
-      <div style={{ marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '28px', fontWeight: 800 }}>
-          Welcome back, <span className="gradient-text">{user?.full_name || 'Guardian'}</span> 🛡️
-        </h1>
-        <p style={{ color: 'var(--text-secondary)', marginTop: '4px' }}>
-          Here's your dark pattern detection overview
-        </p>
-      </div>
+    <PageTransition>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '92px 24px 40px' }}>
+        {/* Welcome */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          style={{ marginBottom: '36px' }}
+        >
+          <h1 style={{ fontSize: '30px', fontWeight: 800, fontFamily: 'Outfit, sans-serif' }}>
+            Welcome back, <span className="gradient-text">{user?.full_name || 'Guardian'}</span>{' '}
+            <motion.span
+              animate={{ rotate: [0, 15, -15, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              style={{ display: 'inline-block', filter: 'drop-shadow(0 0 8px rgba(124, 106, 255, 0.4))' }}
+            >
+              🛡️
+            </motion.span>
+          </h1>
+          <p style={{ color: 'var(--text-secondary)', marginTop: '6px', fontSize: '15px' }}>
+            Here's your dark pattern detection overview
+          </p>
+        </motion.div>
 
-      {/* Stats Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '16px', marginBottom: '32px' }}>
-        <StatCard
-          title="Total Scans"
-          value={stats?.total_scans || 42}
-          icon={<Scan size={24} />}
-          trend="+12 this week"
-          color="var(--primary)"
-        />
-        <StatCard
-          title="Patterns Found"
-          value={stats?.total_patterns_found || 156}
-          icon={<AlertTriangle size={24} />}
-          trend="+23 detected"
-          color="var(--danger)"
-        />
-        <StatCard
-          title="Complaints Filed"
-          value={stats?.total_complaints || 8}
-          icon={<FileText size={24} />}
-          color="var(--warning)"
-        />
-        <StatCard
-          title="DarkGuard Points"
-          value={stats?.darkguard_points || 350}
-          icon={<Star size={24} />}
-          trend="+50 earned"
-          color="var(--success)"
-        />
-      </div>
+        {/* Stats Grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '18px', marginBottom: '32px' }}>
+          <StatCard
+            title="Total Scans"
+            value={stats?.total_scans || 42}
+            icon={<Scan size={24} />}
+            trend="+12 this week"
+            color="var(--primary)"
+          />
+          <StatCard
+            title="Patterns Found"
+            value={stats?.total_patterns_found || 156}
+            icon={<AlertTriangle size={24} />}
+            trend="+23 detected"
+            color="var(--danger)"
+          />
+          <StatCard
+            title="Complaints Filed"
+            value={stats?.total_complaints || 8}
+            icon={<FileText size={24} />}
+            color="var(--warning)"
+          />
+          <StatCard
+            title="DarkGuard Points"
+            value={stats?.darkguard_points || 350}
+            icon={<Star size={24} />}
+            trend="+50 earned"
+            color="var(--success)"
+          />
+        </div>
 
-      {/* Chart */}
-      <div style={{ marginBottom: '32px' }}>
-        <TrustScoreChart />
-      </div>
+        {/* Chart */}
+        <div style={{ marginBottom: '32px' }}>
+          <TrustScoreChart />
+        </div>
 
-      {/* Recent Scans */}
-      <div className="glass-card">
-        <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '20px' }}>
-          🔍 Recent Scans
-        </h3>
-        <ScanTable scans={mockScans} />
+        {/* Recent Scans */}
+        <motion.div
+          className="glass-card"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <h3 style={{
+            fontSize: '18px', fontWeight: 700, marginBottom: '20px',
+            fontFamily: 'Outfit, sans-serif',
+            display: 'flex', alignItems: 'center', gap: '8px',
+          }}>
+            <span style={{ filter: 'drop-shadow(0 0 8px var(--primary-glow))' }}>🔍</span>
+            Recent Scans
+          </h3>
+          <ScanTable scans={mockScans} />
+        </motion.div>
       </div>
-    </div>
+    </PageTransition>
   )
 }

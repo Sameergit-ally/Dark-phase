@@ -22,27 +22,27 @@ export function formatDateTime(date: string | Date) {
 
 export function getGradeColor(grade: string): string {
   const colors: Record<string, string> = {
-    A: '#2a9d8f',
-    B: '#4ecdc4',
-    C: '#f4a261',
-    D: '#e76f51',
-    F: '#e63946',
+    A: '#00e676',
+    B: '#69f0ae',
+    C: '#ffab40',
+    D: '#ff6e40',
+    F: '#ff3d71',
   }
-  return colors[grade] || '#6c63ff'
+  return colors[grade] || '#7c6aff'
 }
 
 export function getPatternColor(type: string): string {
   const colors: Record<string, string> = {
-    FAKE_URGENCY: '#e63946',
-    HIDDEN_CHARGES: '#d62828',
-    ROACH_MOTEL: '#e76f51',
-    TRICK_QUESTION: '#f4a261',
-    COOKIE_MANIPULATION: '#e9c46a',
-    CONFIRMSHAMING: '#f77f00',
-    BAIT_SWITCH: '#d90429',
-    MISDIRECTION: '#c1121f',
+    FAKE_URGENCY: '#ff3d71',
+    HIDDEN_CHARGES: '#ff1744',
+    ROACH_MOTEL: '#ff6e40',
+    TRICK_QUESTION: '#ffab40',
+    COOKIE_MANIPULATION: '#ffd740',
+    CONFIRMSHAMING: '#ff9100',
+    BAIT_SWITCH: '#ff1744',
+    MISDIRECTION: '#d50000',
   }
-  return colors[type] || '#6c63ff'
+  return colors[type] || '#7c6aff'
 }
 
 export function formatPatternType(type: string): string {
